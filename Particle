@@ -1,0 +1,52 @@
+#ifndef PARTICULA_H
+#include <iostream>
+#define PARTICULA_H
+#include <vector>
+#include <thread>
+#include <random>
+#include <ctime>
+#include <sstream>
+#include <algorithm>
+
+using namespace std;
+class Particula
+{
+    public:
+        Particula();
+        Particula(int id);
+        ~Particula();
+
+        void setBestfitness(float fitness);
+        void setId(int id);
+        void setFitness(float fitness);
+        void setPosicion(vector <float> posicion);
+        void setVelocidad(vector <float> velocidad );
+        void setMejorPosLocal(vector<float>mejorPosLocal);
+
+        int getId();
+         float getBestfitness();
+           vector<float>getPosicion();
+       float getFitness();
+          vector<float>getMejorPosLocal();
+          vector<float>getVelocidad();
+        float fitness;
+          string MostrarDatos();
+        float randGen(const float & min, const float & max);
+        //operador para ordenamiento.
+        bool operator < (const Particula &particula2)
+        const {return m_fitness < particula2.m_fitness;}
+
+    protected:
+        int m_id;
+        float m_fitness;
+        float m_Bestfitness;
+        vector <float> m_posicion;
+           vector <float> m_velocidad;
+              vector <float> m_mejorPosLocal;
+
+
+
+    private:
+};
+
+#endif // PARTICULA_H
