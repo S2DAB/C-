@@ -1,0 +1,30 @@
+#include "Particula.h"
+#include <thread>
+using namespace std;
+
+Particula::Particula(){}
+Particula::Particula(int id){m_id=id; fitness=0;}
+Particula::~Particula(){}
+
+int Particula::getId(){return m_id;}
+float Particula::getFitness(){return fitness;}
+vector<float> Particula::getMejorPosLocal(){return m_mejorPosLocal;}
+vector<float> Particula::getPosicion(){return m_posicion;}
+vector<float> Particula::getVelocidad(){return m_velocidad;}
+float Particula::getBestfitness(){return m_Bestfitness;}
+
+void Particula::setBestfitness(float fitness){m_Bestfitness=fitness;}
+void Particula::setFitness(float fitness){m_fitness=fitness;}
+void Particula::setId(int id){m_id=id;}
+void Particula::setMejorPosLocal(vector<float> mejorPosLocal){copy(mejorPosLocal.begin(),mejorPosLocal.end(),back_inserter(m_mejorPosLocal));}
+void Particula::setPosicion(vector<float> posicion){copy(posicion.begin(),posicion.end(),back_inserter(m_posicion));}
+void Particula::setVelocidad(vector<float> velocidad){copy(velocidad.begin(),velocidad.end(),back_inserter(m_velocidad));}
+
+
+string Particula::MostrarDatos()
+{
+    stringstream ss;
+    ss<<m_id<<"\t"<<m_velocidad.at(0)<<","<<m_velocidad.at(1)<<"\t"<<m_posicion.at(0)<<","<<m_posicion.at(1)<<"\t"
+    <<m_mejorPosLocal.at(0)<<","<<m_mejorPosLocal.at(1)<<"\t"<<m_fitness<<"\n";
+    return ss.str();
+}
