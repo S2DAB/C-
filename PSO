@@ -1,0 +1,214 @@
+#include <iostream>
+#include <math.h>
+#include <vector>
+#include <fstream>
+#include <ctime>
+#include <cstdlib>
+#include <algorithm>
+#include "Particula.h"
+
+using namespace std;
+
+
+double sphere(double x, double y){
+double z= (x*x)+(y*y);
+return z;
+}
+
+double beale (double x, double y){
+double a= (1.5-x+x*y)*(1.5-x+x*y)+(2.25-x+x*y*y)*(2.25-x+x*y*y)+(2.625-x+x*y*y*y)*(2.625-x+x*y*y*y);
+return a;
+}
+
+double goldstein (double x, double y){
+    double c=(1+(x+y+1)*(x+y+1)*(19-14*x+3*x*x-14*y+6*x*y+3*y*y))*(30+(2*x-3*y)*(2*x-3*y)*(18-32*x+12*x*x+48*y-36*x*y+27*y*y));
+return c;
+}
+//funcion sacada de: https://stackoverflow.com/questions/686353/random-float-number-generation
+float randGen( int LO, int HI)
+{
+    float r3 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+       return r3;
+}
+
+
+int main()
+{
+    ofstream es;
+    es.open("Esfera.txt");
+
+    for(double i=-5;i<5;i++){
+            for(double y=-5;y<5;y++)
+            es<<i<<"\t"<<y<<"\t"<<sphere(i,y)<<endl;
+    }
+    es.close();
+
+
+    es.open("Beale.txt");
+    for(double i=-4.5;i<4.6;i+=0.5){
+            for(double y=-4.5;y<4.6;y+=0.5)
+            es<<i<< "\t"<<y<<"\t"<<beale(i,y)<<endl;
+    }
+    es.close();
+
+
+    es.open("Goldstein.txt");
+    for(double i=-2; i<3;i+=0.5){
+            for(double y=-2;y<3;y+=0.5)
+            es<<i<< "\t"<<y<< "\t"<<goldstein(i,y)<<endl;
+    }
+    es.close();
+
+
+
+    //Configuraciones:
+    int n=100, d=2, id_best_g;
+    Particula p;
+    vector<float> posTemp;
+    vector<float> velTemp;
+    vector<Particula> Poblacion;
+//usa el arguento de una semilla, para secuencia de numeros(PSEUDO ALEATORIOS), si el valor que se le da es el mismo siempr, entonces se repetira el orden de los numeros
+    srand(time(0));
+    //Inicializando las particulas:
+    for(int i=0;i<=n;i++)
+    {
+        p=Particula(i);
+        for(int j=0; j<d; j++)
+        {
+            //(-100+rand()%(101+100))/10.0
+            posTemp.push_back(randGen(-10,10));
+            velTemp.push_back(randGen(-10,10));
+        }
+        p.setPosicion(posTemp);
+        p.setMejorPosLocal(posTemp);
+        p.setVelocidad(velTemp);
+        p.setFitness(sphere(p.getPosicion().at(0),p.getPosicion().at(1)));
+        p.setBestfitness(p.getFitness());
+        Poblacion.push_back(p);
+    posTemp.clear();
+    velTemp.clear();
+    }
+
+    //Se imprimen las particulas
+    es.open("Resultados.txt");
+    es << "id\t"<< "Velocidad\t" << "\tPosicion\t" << "\tMejotPosLocal\t" << "\tfitness \t\t" << endl;
+
+    for(int i=0; i<=n; i++)
+    {
+        if (i<3)
+        es<<Poblacion.at(i).MostrarDatos();
+
+        if (i>=98)
+         es<<Poblacion.at(i).MostrarDatos();
+    }
+
+
+    //se acomodan las particulas por su fitness.
+    sort(Poblacion.begin(),Poblacion.end());
+//sort  permite acceder a los  datos del vector y ordenar de menor a menor
+
+    es<<endl<<"++++++++++++++PARTICULAS ORDENADAS++++++++++++++++++"<<endl<<endl;
+    //Se imprimen las particulas ordenadas.
+/*es <<endl;
+es << "Se muestran las 3 m3jores particulas" << endl;
+es << endl;
+   for(int i=3; i<=n;i++){
+    es<<Poblacion.at(i).MostrarDatos();
+   }
+
+
+es <<endl;
+es << "Se muestran las 3 p3ores particulas" << endl;
+es << endl;
+   for(int i=; i<=n;i++){
+    es<<Poblacion.at(i).MostrarDatos();
+   }*/
+
+
+    for(int i=0; i<=n;i++)
+    {
+        if (i<3)
+        es << Poblacion.at(i).MostrarDatos();
+
+        if (i>=98)
+         es<<Poblacion.at(i).MostrarDatos();
+
+    }
+//Sacando el id de la mejor particula
+    id_best_g=Poblacion.at(0).getId();
+    es<<endl<< "la mejor particula es: "<<id_best_g;
+
+
+//Primer particula aleatoria
+vector <float> Al1;
+for (int i=0;i<=2;i++)
+  {
+      Al1.push_back(randGen(0,2));
+  }
+
+    //Segunda partivula
+    vector <float> Al2;
+for (int i=0;i<=2;i++)
+  {
+      Al2.push_back(randGen(0,2));
+  }
+    es<<"\n ++++++++++++Las particulas aleatorias son:++++++++++++"<< endl;
+    es<<"\n"<<Al1.at(0)<< "," <<Al1.at(1)<< "n";
+    es<<Al2.at(0)<< ","<<Al2.at(1) << endl;
+
+    vector<float> Velocidad;
+    vector<float> Posicion;
+    es<< endl;
+
+
+    es << "+++++++++Particulas modificadas++++++++++++"<< endl;
+       for (int i=0;i<=n;i++)
+              {
+                  //opereciones
+
+                  float a=(Poblacion.at(i).getMejorPosLocal().at(0)-Poblacion.at(i).getPosicion().at(0)*Al1.at(0));
+                    float b=(Poblacion.at(0).getMejorPosLocal().at(0)-Poblacion.at(i).getPosicion().at(0)*Al2.at(0))  ;
+                      float x=Poblacion.at(i).getVelocidad().at(0)+a+b;
+
+
+
+                          float c=(Poblacion.at(i).getMejorPosLocal().at(1)-Poblacion.at(i).getPosicion().at(1)*Al1.at(1));
+                           float d=(Poblacion.at(0).getMejorPosLocal().at(1)-Poblacion.at(i).getPosicion().at(1)*Al2.at(1));
+                               float y=Poblacion.at(i).getVelocidad().at(0)+c+d;
+                               velTemp.push_back(x);
+                               velTemp.push_back(y);
+
+
+
+                Poblacion.at(i).setVelocidad(velTemp);
+                Poblacion.at(i).resetVelocidad(velTemp);
+
+
+                float x1=Poblacion.at(i).getPosicion().at(0) + Poblacion.at(i).getVelocidad().at(0);
+                float y1=Poblacion.at(i).getPosicion().at(1) + Poblacion.at(i).getVelocidad().at(1);
+
+                posTemp.push_back(x1);
+                posTemp.push_back(y1);
+
+                Poblacion.at(i).resetPosicion();
+                Poblacion.at(i).setPosicion(posTemp);
+ //Con esto, para limpiar el vector
+                posTemp.clear();
+                velTemp.clear();
+
+
+                Poblacion.at(i).setFitness(goldstein(Poblacion.at(i).getPosicion().at(0),Poblacion.at(i).getPosicion().at(1)));
+                POblacion.at(i).compararMejor(Poblacion.at(i).getPosicion());
+              }
+    for (int i=0;i<=n;i++)
+    {
+        if (i<=2)
+            es<<Poblacion.at(i).MostrarDatos();
+        if(i>97)
+            es<<Poblacion.at(i).MostrarDatos();
+    }
+
+    es.close();
+cout << "Programa terminado" << endl;
+    return 0;
+}
