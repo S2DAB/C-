@@ -1,0 +1,179 @@
+/* PROGRAMA QUE REALIZA OPERACIONES ENTRE MATRICES ( SUMA, RESTA, MULTIPLICACION Y DIVISION)
+#include <stdio.h>
+
+
+int main (void){
+
+	/* SE DACLARA LAS MATRICES E INCOGNITAS QUE SERAN USADAS  */
+	int matriz1[50][50], matriz2[50][50],resultante[50][50];
+	int filas, columnas, i,j, operacion;
+	/* SE PIDE QUE SE INGRESE LA OPERACION QUE SE DEAS HACER */
+	printf("las operaciones son: suma(1), resta(2), multiplicacion(3), division(4)\n");
+	printf("¿que operacion deseas hacer?: \n");
+	scanf("%d",&operacion);
+
+	if (operacion<4 && operacion>0){
+
+        /* EL USUARIO INGRESA EL NUMERO DE FILAS Y COLUMNAS*/   
+	printf("Escribe el numero de filas: ");
+	scanf("%d",&filas);
+	printf("Escribe el numero de columnas: ");
+	scanf("%d",&columnas);
+	
+			/*primera matriz*/
+			for(i=0;i<filas;i++){
+		for(j=0;j<columnas;j++){
+		printf("Escribe un numero de la matriz1[%d][%d]: ", i+1,j+1);
+		scanf("%d",&matriz1[i][j]);
+		}
+		printf("\n");
+	}
+	/*segunda matriz*/
+				for(i=0;i<filas;i++){
+		for(j=0;j<columnas;j++){
+		printf("Escribe un numero de la matriz2[%d][%d]: ", i+1,j+1);
+		scanf("%d",&matriz2[i][j]);
+		}
+		printf("\n");
+	}	
+			printf("Matriz uno: \n");
+			/*SE IMPRIME LA PRIMERA MATRIZ*/
+			for(i=0;i<filas;i++){
+		for(j=0;j<columnas;j++){
+		printf("%d ", matriz1[i][j]);
+		}
+		printf("\n");
+	}
+	
+	printf("\n\n");
+				printf("Matriz dos: \n");
+				/*SE IMPRIME LA SEGUNDA MATRIZ*/
+				for(i=0;i<filas;i++){
+				for(j=0;j<columnas;j++){
+				printf("%d ", matriz2[i][j]);
+		}
+		printf("\n");
+	}
+	/* SE USA UN SWITCH PARA CADA CASO DE LA OPERACION*/
+	 switch (operacion)
+	  {
+	  case 1:
+	   for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   resultante[i][j]=matriz1[i][j]+matriz2[i][j];}}
+	   /* RESULTADO DE LA SUMA */
+	    printf("La matriz resultante es: \n");
+
+	for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   printf("%d ",resultante[i][j]);}
+					   printf("\n");}
+	   
+	  break;
+	  case 2:
+	  for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   resultante[i][j]=matriz1[i][j]-matriz2[i][j];}}
+	  /* RESULTADO DE LA RESTA */
+	  printf("La matriz resultante es: \n");
+   	  for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   printf("%d ",resultante[i][j]);}
+					   printf("\n");}
+	  break;
+	  case 3:
+	  for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   resultante[i][j]=matriz1[i][j]*matriz2[i][j];}}
+	  /* RESULTADO DE LA MULTIPLICACION */ 
+	   printf("La matriz resultante es: \n");
+
+	for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   printf("%d ",resultante[i][j]);}
+					   printf("\n");}
+
+	  break;
+	  }
+	/*Aqui termina el primer if*/
+	}
+	
+
+		
+					
+					
+
+
+
+
+	/*OPERACIONES PARA LA DIVISION */
+	else if (operacion==4){
+	printf("Escribe el numero de filas: ");
+	scanf("%d",&filas);
+	printf("Escribe el numero de columnas: ");
+	scanf("%d",&columnas);
+	
+			/*primera matriz*/
+			for(i=0;i<filas;i++){
+		for(j=0;j<columnas;j++){
+		printf("Escribe un numero de la matriz1[%d][%d]: ", i+1,j+1);
+		scanf("%d",&matriz1[i][j]);
+		}
+		printf("\n");
+	}
+	/*segunda matriz*/
+			/* SE ACLARA QUE NO SE PUEDE USAR EL NUMERO 0 YA QUE NO EXISTE ESTA DIVISION, ESTO SOLO EN LA SEGUNDA MATRIZ */
+			printf("no puedes poner el valor de 0 en la segunda ya que es division\n");
+				for(i=0;i<filas;i++){
+		for(j=0;j<columnas;j++){
+		printf("Escribe un numero de la matriz2[%d][%d]: ", i+1,j+1);
+		scanf("%d",&matriz2[i][j]);
+		while(matriz2[i][j]==0){
+			printf("No puede ingresar el 0 en una division, introduzca otro: ");
+		        scanf("%d",&matriz2[i][j]);
+		}
+		}
+		printf("\n");
+	}	
+			printf("Matriz uno: \n");
+			/*se imprime la primera matriz*/
+			for(i=0;i<filas;i++){
+		for(j=0;j<columnas;j++){
+		printf("%d ", matriz1[i][j]);
+		}
+		printf("\n");
+	}
+	
+	printf("\n\n");
+				printf("Matriz dos: \n");
+				/*Se imprime la segunda matriz*/
+				for(i=0;i<filas;i++){
+				for(j=0;j<columnas;j++){
+				printf("%d ", matriz2[i][j]);
+		}
+		printf("\n");
+	}
+	/*operacion de division*/
+        for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+		   }
+		   /* SE MUESTRA EL RESULTADO DE LA DIVISION */
+			    resultante[i][j]=(float)( matriz1[i][j])/(float)( matriz2[i][j]);}}
+	/*Se imprime la resultante*/
+	 printf("La matriz resultante es: \n");
+
+	for(i=0;i<filas;i++){
+		   for(j=0;j<columnas;j++){
+			   printf("%f ",(float)( resultante[i][j]));}
+					   printf("\n");}
+
+
+	}
+
+	else{
+		printf("valor no valido\n");
+}
+
+	/* TERMINA PROGRAMA */ 			
+	return 0;
+}
