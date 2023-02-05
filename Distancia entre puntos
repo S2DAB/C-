@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+#include <math.h>
+
+int main (void)
+{
+
+struct punto
+{
+	double x;
+	double y;
+};
+struct punto a,b;
+double distancia;
+printf ("Teclea los valores de punto A : (x1,y1) \n ");
+scanf ("%lf %lf",&a.x,&a.y);
+
+
+printf ("Teclea los valores de vector B : (x2,y2) \n ");
+scanf ("%lf %lf",&b.x,&b.y);
+
+
+distancia = sqrt(pow((b.x-a.x),2)+pow((b.y-a.y),2));
+printf ("La distancia es %lf \n",distancia);
+return 0;
+}
